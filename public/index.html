@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Midlink Investments - Premium Gadgets</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; background: #FFFFFF; min-height: 100vh; color: #1d1d1f; }
+.scroll-progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 4px; z-index: 9999; background: rgba(0,0,0,0.05); }
+.scroll-progress-bar { height: 100%; background: linear-gradient(90deg, #007AFF, #5856D6); width: 0%; transition: width 0.1s; }
+.breadcrumb-nav { position: fixed; top: 70px; left: 50%; transform: translateX(-50%); background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); padding: 10px 24px; border-radius: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); z-index: 100; display: none; align-items: center; gap: 10px; font-size: 0.9rem; border: 1px solid rgba(0,0,0,0.05); }
+.breadcrumb-nav.active { display: flex; }
+.breadcrumb-item { color: #86868b; text-decoration: none; transition: color 0.3s; cursor: pointer; }
+.breadcrumb-item:hover { color: #007AFF; }
+.breadcrumb-item.active { color: #1d1d1f; font-weight: 600; }
+.breadcrumb-separator { color: #86868b; margin: 0 5px; }
+.back-to-top { position: fixed; bottom: 40px; right: 120px; width: 50px; height: 50px; background: linear-gradient(135deg, #007AFF, #5856D6); border-radius: 50%; display: none; align-items: center; justify-content: center; color: white; font-size: 1.2rem; cursor: pointer; border: none; box-shadow: 0 4px 20px rgba(0,122,255,0.4); transition: all 0.3s; z-index: 999; }
+.back-to-top:hover { transform: translateY(-5px); box-shadow: 0 8px 30px rgba(0,122,255,0.5); color: white; }
+.back-to-top.show { display: flex; }
+.cart-button { position: fixed; bottom: 40px; right: 200px; background: linear-gradient(135deg, #34C759, #30B0C7); color: white; padding: 14px 24px; border-radius: 50px; display: none; align-items: center; gap: 12px; cursor: pointer; border: none; box-shadow: 0 4px 20px rgba(52,199,89,0.4); transition: all 0.3s; z-index: 999; font-weight: 600; font-size: 0.95rem; }
+.cart-button:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(52,199,89,0.5); color: white; }
+.cart-button.show { display: flex; }
+.cart-count { background: #FF3B30; color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; }
+.cart-total { font-weight: 700; }
+.navbar { background: rgba(255, 255, 255, 0.72) !important; backdrop-filter: blur(20px); border-bottom: 1px solid rgba(0,0,0,0.05); }
+.navbar-brand { font-weight: 700; font-size: 1.5rem; color: #1d1d1f; }
+.navbar-brand i { background: linear-gradient(135deg, #007AFF, #5856D6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.btn-admin { background: linear-gradient(135deg, #007AFF, #5856D6); border: none; color: white; padding: 8px 20px; border-radius: 20px; }
+.btn-logout { background: rgba(255,59,48,0.9); border: none; color: white; padding: 8px 20px; border-radius: 20px; }
+.hero-section { padding: 100px 0 60px; text-align: center; background: linear-gradient(180deg, #FBFBFD, #FFFFFF); }
+.hero-title { font-size: 3.5rem; font-weight: 700; background: linear-gradient(135deg, #1d1d1f, #434344); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero-subtitle { font-size: 1.3rem; color: #86868b; margin-bottom: 40px; }
+.category-pills { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 25px; }
+.category-pill { padding: 10px 24px; background: rgba(255,255,255,0.72); backdrop-filter: blur(20px); border: 1px solid rgba(0,0,0,0.08); border-radius: 30px; cursor: pointer; transition: all 0.3s; }
+.category-pill:hover, .category-pill.active { background: rgba(0,122,255,0.1); border-color: rgba(0,122,255,0.3); transform: translateY(-2px); }
+.search-container { max-width: 500px; margin: 0 auto 40px; }
+.search-box { display: flex; background: rgba(255,255,255,0.72); backdrop-filter: blur(20px); border: 1px solid rgba(0,0,0,0.08); border-radius: 30px; padding: 8px 8px 8px 20px; }
+.search-box input { flex: 1; border: none; background: transparent; outline: none; font-size: 0.95rem; }
+.search-btn { background: linear-gradient(135deg, #007AFF, #5856D6); border: none; color: white; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; }
+.search-clear { background: rgba(142,142,147,0.2); border: none; color: #86868b; width: 32px; height: 32px; border-radius: 50%; display: none; cursor: pointer; margin-right: 8px; }
+.search-clear.active { display: flex; align-items: center; justify-content: center; }
+.product-card { background: rgba(255,255,255,0.72); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.3); border-radius: 24px; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.08); transition: all 0.4s; margin-bottom: 30px; cursor: pointer; }
+.product-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 20px 60px rgba(0,0,0,0.12); }
+.product-image { height: 280px; background: linear-gradient(135deg, #f5f5f7, #e8e8ed); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.product-image img { max-width: 75%; max-height: 75%; object-fit: contain; }
+.remove-btn { position: absolute; top: 15px; right: 15px; background: rgba(255,59,48,0.9); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: none; z-index: 10; }
+.admin-mode .remove-btn { display: flex; align-items: center; justify-content: center; }
+.product-info { padding: 28px; }
+.category-tag { display: inline-block; padding: 6px 14px; background: rgba(0,122,255,0.1); color: #007AFF; border-radius: 12px; font-size: 0.75rem; font-weight: 600; margin-bottom: 12px; }
+.product-name { font-size: 1.4rem; font-weight: 600; margin-bottom: 10px; }
+.product-description { color: #86868b; font-size: 0.95rem; margin-bottom: 20px; }
+.product-price { font-size: 2rem; font-weight: 700; color: #1d1d1f; margin-bottom: 18px; }
+.old-price { text-decoration: line-through; color: #86868b; font-size: 1.3rem; margin-left: 12px; }
+.btn-buy { width: 100%; padding: 14px; background: linear-gradient(135deg, #007AFF, #5856D6); border: none; color: white; border-radius: 14px; font-weight: 600; }
+.btn-add-cart { width: 100%; padding: 12px; background: linear-gradient(135deg, #34C759, #30B0C7); border: none; color: white; border-radius: 14px; font-weight: 600; margin-top: 10px; transition: all 0.3s; }
+.btn-add-cart:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(52,199,89,0.4); color: white; }
+.offers-section { padding: 80px 0; background: linear-gradient(180deg, #FFFFFF, #F5F5F7); margin-top: 40px; }
+.offers-header { text-align: center; margin-bottom: 50px; }
+.offers-title { font-size: 2.8rem; font-weight: 700; background: linear-gradient(135deg, #FF2D55, #FF9500); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.offers-badge { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #FF2D55, #FF9500); color: white; padding: 8px 20px; border-radius: 30px; font-weight: 600; margin-bottom: 20px; }
+.offer-card { background: rgba(255,255,255,0.85); backdrop-filter: blur(30px); border: 1px solid rgba(255,255,255,0.5); border-radius: 24px; overflow: hidden; box-shadow: 0 10px 40px rgba(255,45,85,0.15); transition: all 0.4s; margin-bottom: 30px; position: relative; cursor: pointer; }
+.offer-card:hover { transform: translateY(-10px) scale(1.02); }
+.offer-badge { position: absolute; top: 20px; left: 20px; background: linear-gradient(135deg, #FF2D55, #FF9500); color: white; padding: 8px 16px; border-radius: 20px; font-weight: 700; z-index: 5; }
+.offer-image { height: 250px; background: linear-gradient(135deg, #fff5f5, #fff0e6); display: flex; align-items: center; justify-content: center; }
+.offer-image img { max-width: 70%; max-height: 70%; object-fit: contain; }
+.offer-info { padding: 28px; }
+.offer-name { font-size: 1.5rem; font-weight: 700; margin-bottom: 10px; }
+.offer-price { font-size: 2.2rem; font-weight: 700; color: #FF2D55; }
+.offer-old-price { text-decoration: line-through; color: #86868b; font-size: 1.4rem; margin-left: 12px; }
+.btn-claim { width: 100%; padding: 14px; background: linear-gradient(135deg, #FF2D55, #FF9500); border: none; color: white; border-radius: 14px; font-weight: 600; }
+.fab-add { position: fixed; bottom: 40px; right: 40px; width: 64px; height: 64px; background: linear-gradient(135deg, #007AFF, #5856D6); border-radius: 50%; display: none; align-items: center; justify-content: center; color: white; font-size: 1.8rem; cursor: pointer; border: none; z-index: 1000; }
+.fab-add-offer { position: fixed; bottom: 120px; right: 40px; width: 64px; height: 64px; background: linear-gradient(135deg, #FF2D55, #FF9500); border-radius: 50%; display: none; align-items: center; justify-content: center; color: white; font-size: 1.8rem; cursor: pointer; border: none; z-index: 1000; }
+.admin-mode .fab-add, .admin-mode .fab-add-offer { display: flex; }
+.admin-badge { background: rgba(255,193,7,0.9); color: #1d1d1f; padding: 6px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; display: none; margin-left: 12px; }
+.admin-mode .admin-badge { display: inline-block; }
+.upload-widget { border: 2px dashed rgba(0,122,255,0.3); border-radius: 16px; padding: 30px; text-align: center; background: rgba(0,122,255,0.05); transition: all 0.3s; cursor: pointer; margin-bottom: 20px; }
+.upload-widget:hover { border-color: rgba(0,122,255,0.6); background: rgba(0,122,255,0.08); }
+.upload-widget.dragover { border-color: #007AFF; background: rgba(0,122,255,0.15); transform: scale(1.02); }
+.upload-icon { font-size: 3rem; color: #007AFF; margin-bottom: 15px; }
+.upload-text { font-weight: 500; color: #1d1d1f; margin-bottom: 8px; }
+.upload-subtext { font-size: 0.85rem; color: #86868b; }
+.upload-input { display: none; }
+.upload-preview { display: none; margin-top: 20px; }
+.upload-preview.active { display: block; }
+.image-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 10px; margin-top: 15px; }
+.gallery-item { position: relative; width: 80px; height: 80px; border-radius: 8px; overflow: hidden; cursor: pointer; border: 2px solid transparent; transition: all 0.3s; }
+.gallery-item:hover { border-color: #007AFF; transform: scale(1.05); }
+.gallery-item.active { border-color: #007AFF; box-shadow: 0 0 0 3px rgba(0,122,255,0.3); }
+.gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+.gallery-remove { position: absolute; top: 2px; right: 2px; width: 20px; height: 20px; background: rgba(255,59,48,0.9); color: white; border: none; border-radius: 50%; font-size: 0.7rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.preview-image { max-width: 100%; max-height: 250px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+.preview-remove { background: rgba(255,59,48,0.9); color: white; border: none; padding: 8px 16px; border-radius: 8px; margin-top: 10px; cursor: pointer; font-size: 0.9rem; }
+.upload-progress { display: none; margin-top: 15px; }
+.upload-progress.active { display: block; }
+.progress-bar { height: 6px; background: rgba(0,122,255,0.2); border-radius: 3px; overflow: hidden; margin-top: 8px; }
+.progress-fill { height: 100%; background: linear-gradient(135deg, #007AFF, #5856D6); width: 0%; transition: width 0.3s; }
+.upload-status { font-size: 0.85rem; color: #86868b; margin-top: 8px; }
+.upload-status.success { color: #34C759; }
+.upload-status.error { color: #FF3B30; }
+.modal-content { background: rgba(255,255,255,0.95); backdrop-filter: blur(30px); border: 1px solid rgba(255,255,255,0.3); border-radius: 24px; }
+.modal-header { background: rgba(255,255,255,0.5); border-bottom: 1px solid rgba(0,0,0,0.05); border-radius: 24px 24px 0 0; }
+.form-control, .form-select { background: rgba(255,255,255,0.8); border: 1px solid rgba(0,0,0,0.1); border-radius: 12px; padding: 12px 16px; }
+.form-control:focus, .form-select:focus { border-color: #007AFF; box-shadow: 0 0 0 4px rgba(0,122,255,0.1); }
+.form-label { font-weight: 500; color: #1d1d1f; margin-bottom: 8px; }
+.product-detail-modal .modal-dialog { max-width: 1000px; }
+.product-detail-container { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+.product-detail-image { background: linear-gradient(135deg, #f5f5f7, #e8e8ed); padding: 40px; display: flex; align-items: center; justify-content: center; position: relative; }
+.product-detail-image img { max-width: 90%; max-height: 400px; object-fit: contain; }
+.image-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.9); border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #1d1d1f; transition: all 0.3s; }
+.image-nav:hover { background: white; transform: translateY(-50%) scale(1.1); }
+.image-nav.prev { left: 20px; }
+.image-nav.next { right: 20px; }
+.image-counter { position: absolute; bottom: 20px; background: rgba(0,0,0,0.7); color: white; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; }
+.product-detail-info { padding: 40px; }
+.product-detail-title { font-size: 2.2rem; font-weight: 700; margin-bottom: 16px; }
+.product-detail-price { font-size: 2.5rem; font-weight: 700; color: #007AFF; margin-bottom: 24px; }
+.contact-section { margin: 30px 0; padding: 25px; background: rgba(0, 122, 255, 0.05); border-radius: 16px; border: 1px solid rgba(0, 122, 255, 0.1); }
+.contact-title { display: flex; align-items: center; gap: 10px; font-weight: 600; color: #1d1d1f; margin-bottom: 20px; font-size: 1.1rem; }
+.contact-title i { color: #007AFF; font-size: 1.3rem; }
+.contact-buttons { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 15px; }
+.contact-btn { flex: 1; min-width: 120px; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 20px; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: all 0.3s; border: none; cursor: pointer; }
+.contact-btn i { font-size: 1.2rem; }
+.contact-btn.phone { background: linear-gradient(135deg, #34C759, #30B0C7); color: white; box-shadow: 0 4px 15px rgba(52, 199, 89, 0.3); }
+.contact-btn.phone:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(52, 199, 89, 0.4); color: white; }
+.contact-btn.whatsapp { background: linear-gradient(135deg, #25D366, #128C7E); color: white; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); }
+.contact-btn.whatsapp:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4); color: white; }
+.contact-btn.tiktok { background: linear-gradient(135deg, #000000, #25F4EE, #FE2C55); color: white; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); }
+.contact-btn.tiktok:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4); color: white; }
+.contact-note { font-size: 0.85rem; color: #86868b; margin: 0; display: flex; align-items: center; gap: 8px; }
+.contact-note i { color: #007AFF; }
+.stock-indicator { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; padding: 12px 16px; background: rgba(52, 199, 89, 0.1); border-radius: 12px; }
+.stock-indicator.in-stock { background: rgba(52, 199, 89, 0.1); }
+.stock-indicator.low-stock { background: rgba(255, 149, 0, 0.1); }
+.stock-dot { width: 10px; height: 10px; border-radius: 50%; background: #34C759; }
+.low-stock .stock-dot { background: #FF9500; animation: pulse 1.5s infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+.stock-text { font-size: 0.9rem; font-weight: 500; color: #1d1d1f; }
+.shipping-info { display: flex; gap: 20px; padding-top: 20px; border-top: 1px solid rgba(0, 0, 0, 0.08); margin-top: 20px; flex-wrap: wrap; }
+.shipping-item { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: #86868b; }
+.shipping-item i { color: #007AFF; }
+.toast-notification { position: fixed; bottom: 120px; right: 40px; background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); border: 1px solid rgba(0,0,0,0.1); border-radius: 16px; padding: 16px 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 12px; z-index: 2000; transform: translateX(150%); transition: transform 0.4s; }
+.toast-notification.show { transform: translateX(0); }
+.toast-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #34C759, #30B0C7); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; }
+.whatsapp-float { position: fixed; bottom: 40px; left: 40px; width: 60px; height: 60px; background: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.8rem; cursor: pointer; z-index: 1000; text-decoration: none; }
+.cart-item { display: flex; align-items: center; gap: 15px; padding: 15px; background: rgba(255,255,255,0.5); border-radius: 12px; margin-bottom: 10px; }
+.cart-item-image { width: 80px; height: 80px; border-radius: 8px; object-fit: cover; }
+.cart-item-details { flex: 1; }
+.cart-item-name { font-weight: 600; font-size: 1rem; margin-bottom: 5px; }
+.cart-item-price { color: #007AFF; font-weight: 700; }
+.cart-item-quantity { display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.05); border-radius: 8px; padding: 5px; }
+.cart-item-quantity button { width: 30px; height: 30px; border: none; background: rgba(0,122,255,0.1); color: #007AFF; border-radius: 6px; cursor: pointer; font-weight: 600; }
+.cart-item-quantity span { font-weight: 600; min-width: 30px; text-align: center; }
+.cart-item-remove { background: rgba(255,59,48,0.1); color: #FF3B30; border: none; width: 30px; height: 30px; border-radius: 6px; cursor: pointer; }
+.cart-total-section { margin-top: 20px; padding-top: 20px; border-top: 2px solid rgba(0,0,0,0.1); }
+.cart-total-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 1.1rem; }
+.cart-total-final { font-size: 1.5rem; font-weight: 700; color: #007AFF; }
+.checkout-form { margin-top: 20px; padding-top: 20px; border-top: 2px solid rgba(0,0,0,0.1); }
+.btn-checkout { width: 100%; padding: 16px; background: linear-gradient(135deg, #25D366, #128C7E); border: none; color: white; border-radius: 14px; font-weight: 700; font-size: 1.1rem; margin-top: 15px; transition: all 0.3s; }
+.btn-checkout:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(37,211,102,0.4); color: white; }
+.btn-clear-cart { width: 100%; padding: 12px; background: rgba(255,59,48,0.1); border: 1px solid rgba(255,59,48,0.3); color: #FF3B30; border-radius: 14px; font-weight: 600; margin-top: 10px; transition: all 0.3s; }
+.btn-clear-cart:hover { background: rgba(255,59,48,0.2); color: #FF3B30; }
+@media (max-width: 768px) {
+.hero-title { font-size: 2.5rem; }
+.product-detail-container { grid-template-columns: 1fr; }
+.fab-add, .fab-add-offer { bottom: 30px; right: 30px; width: 56px; height: 56px; }
+.fab-add-offer { bottom: 100px; }
+.contact-buttons { flex-direction: column; }
+.contact-btn { width: 100%; }
+.shipping-info { flex-direction: column; gap: 12px; }
+.image-nav { display: none; }
+.back-to-top { right: 20px; }
+.breadcrumb-nav { top: 60px; padding: 8px 16px; font-size: 0.8rem; }
+.cart-button { right: 20px; bottom: 110px; padding: 12px 18px; font-size: 0.85rem; }
+.whatsapp-float { bottom: 30px; left: 30px; }
+}
+.empty-state { text-align: center; padding: 80px 20px; background: rgba(255,255,255,0.72); backdrop-filter: blur(20px); border-radius: 24px; }
+.empty-state i { font-size: 5rem; color: #86868b; opacity: 0.5; margin-bottom: 20px; }
+</style>
+</head>
+<body>
+<div class="scroll-progress-container"><div class="scroll-progress-bar" id="scrollProgressBar"></div></div>
+<div class="breadcrumb-nav" id="breadcrumbNav">
+    <span class="breadcrumb-item" onclick="scrollToSection('home')">Home</span>
+    <span class="breadcrumb-separator"><i class="fas fa-chevron-right" style="font-size:0.7rem"></i></span>
+    <span class="breadcrumb-item" onclick="scrollToSection('products')">Products</span>
+    <span class="breadcrumb-separator"><i class="fas fa-chevron-right" style="font-size:0.7rem"></i></span>
+    <span class="breadcrumb-item active" id="breadcrumbCurrent">Category</span>
+</div>
+<button class="back-to-top" id="backToTop" onclick="scrollToTop()"><i class="fas fa-arrow-up"></i></button>
+<button class="cart-button" id="cartButton" onclick="openCart()">
+    <i class="fas fa-shopping-cart"></i>
+    <span class="cart-count" id="cartCount">0</span>
+    <span class="cart-total" id="cartTotal">$0.00</span>
+</button>
+<nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="#"><i class="fas fa-microchip me-2"></i>Midlink Investments</a>
+        <span class="admin-badge"><i class="fas fa-shield-alt me-1"></i>ADMIN</span>
+        <div class="ms-auto">
+            <button class="btn btn-admin me-2" id="loginBtn" onclick="showLoginModal()"><i class="fas fa-lock me-2"></i>Admin</button>
+            <button class="btn btn-logout me-2 d-none" id="logoutBtn" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>Logout</button>
+        </div>
+    </div>
+</nav>
+<section class="hero-section" id="home">
+    <div class="container">
+        <h1 class="hero-title">Premium Tech Gadgets</h1>
+        <p class="hero-subtitle">Quality products from Midlink Investments</p>
+        <div class="category-pills">
+            <div class="category-pill active" onclick="filterCategory('all')">All Products</div>
+            <div class="category-pill" onclick="filterCategory('Smartphone')">Smartphones</div>
+            <div class="category-pill" onclick="filterCategory('Laptop')">Laptops</div>
+            <div class="category-pill" onclick="filterCategory('Headphones')">Audio</div>
+            <div class="category-pill" onclick="filterCategory('Camera')">Cameras</div>
+        </div>
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search products..." onkeyup="searchProducts()">
+                <button class="search-clear" id="searchClear" onclick="clearSearch()"><i class="fas fa-times"></i></button>
+                <button class="search-btn" onclick="searchProducts()"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="container mb-5" id="products"><div class="row" id="productsGrid"></div></div>
+<section class="offers-section" id="offers">
+    <div class="container">
+        <div class="offers-header">
+            <div class="offers-badge"><i class="fas fa-fire"></i><span>HOT DEALS</span></div>
+            <h2 class="offers-title">Special Offers</h2>
+            <p>Limited time deals from Midlink Investments</p>
+        </div>
+        <div class="row" id="offersGrid"></div>
+    </div>
+</section>
+<button class="fab-add" onclick="showAddModal()" title="Add Product"><i class="fas fa-plus"></i></button>
+<button class="fab-add-offer" onclick="showAddOfferModal()" title="Add Offer"><i class="fas fa-percent"></i></button>
+<a href="https://wa.me/254700000000" class="whatsapp-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
+<div class="toast-notification" id="toastNotification">
+    <div class="toast-icon"><i class="fas fa-check"></i></div>
+    <div class="toast-message" id="toastMessage">Success!</div>
+</div>
+<!-- Product Detail Modal -->
+<div class="modal fade product-detail-modal" id="productDetailModal" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header"><h5 class="modal-title">Product Details</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+            <div class="modal-body">
+                <div class="product-detail-container">
+                    <div class="product-detail-image">
+                        <img id="detailImage" src="" alt="Product">
+                        <button class="image-nav prev" onclick="prevImage()"><i class="fas fa-chevron-left"></i></button>
+                        <button class="image-nav next" onclick="nextImage()"><i class="fas fa-chevron-right"></i></button>
+                        <div class="image-counter" id="imageCounter">1 / 1</div>
+                    </div>
+                    <div class="product-detail-info">
+                        <span class="category-tag" id="detailCategory">Category</span>
+                        <h2 class="product-detail-title" id="detailTitle">Product Name</h2>
+                        <p class="product-description" id="detailDescription">Description...</p>
+                        <div class="product-detail-price" id="detailPrice">$0.00</div>
+                        <div class="stock-indicator" id="stockIndicator"><div class="stock-dot"></div><span class="stock-text" id="stockText">In Stock</span></div>
+                        <div class="contact-section">
+                            <div class="contact-title"><i class="fas fa-headset"></i><span>Contact Midlink Investments</span></div>
+                            <div class="contact-buttons">
+                                <a href="tel:+254700000000" class="contact-btn phone" id="contactPhone" target="_blank"><i class="fas fa-phone-alt"></i><span>Call Now</span></a>
+                                <a href="https://wa.me/254700000000" class="contact-btn whatsapp" id="contactWhatsapp" target="_blank"><i class="fab fa-whatsapp"></i><span>WhatsApp</span></a>
+                                <a href="https://tiktok.com/@midlinkinvestments" class="contact-btn tiktok" id="contactTiktok" target="_blank"><i class="fab fa-tiktok"></i><span>TikTok</span></a>
+                            </div>
+                            <p class="contact-note"><i class="fas fa-info-circle"></i>Click any button to contact us directly about this product</p>
+                        </div>
+                        <div class="shipping-info">
+                            <div class="shipping-item"><i class="fas fa-check-circle"></i><span>Genuine Products</span></div>
+                            <div class="shipping-item"><i class="fas fa-shield-alt"></i><span>Warranty Included</span></div>
+                            <div class="shipping-item"><i class="fas fa-undo"></i><span>Easy Returns</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Cart Modal -->
+<div class="modal fade" id="cartModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header"><h5 class="modal-title"><i class="fas fa-shopping-cart me-2"></i>Shopping Cart</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+            <div class="modal-body">
+                <div id="cartItemsContainer"></div>
+                <div class="cart-total-section" id="cartTotalSection" style="display:none;">
+                    <div class="cart-total-row cart-total-final"><span>Total:</span><span id="cartFinalTotal">$0.00</span></div>
+                </div>
+                <div class="checkout-form" id="checkoutForm" style="display:none;">
+                    <h6 class="mb-3"><i class="fas fa-user me-2"></i>Your Information</h6>
+                    <div class="mb-3"><label class="form-label">Full Name</label><input type="text" class="form-control" id="customerName" placeholder="John Doe" required></div>
+                    <div class="mb-3"><label class="form-label">Phone Number</label><input type="tel" class="form-control" id="customerPhone" placeholder="+254 700 000 000" required></div>
+                    <button class="btn-checkout" onclick="checkoutWhatsApp()"><i class="fab fa-whatsapp me-2"></i>Send Order via WhatsApp</button>
+                    <button class="btn-clear-cart" onclick="clearCart()"><i class="fas fa-trash me-2"></i>Clear Cart</button>
+                </div>
+                <div id="emptyCartMessage" class="text-center py-5">
+                    <i class="fas fa-shopping-cart" style="font-size:4rem; color:#86868b; opacity:0.5;"></i>
+                    <h5 class="mt-3">Your cart is empty</h5>
+                    <p class="text-muted">Add some products to get started!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Offer Detail Modal -->
+<div class="modal fade product-detail-modal" id="offerDetailModal" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header"><h5 class="modal-title">Offer Details</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+            <div class="modal-body">
+                <div class="product-detail-container">
+                    <div class="product-detail-image"><img id="offerDetailImage" src="" alt="Offer"></div>
+                    <div class="product-detail-info">
+                        <div class="offer-badge" style="position:static; margin-bottom:15px;">-<span id="offerDetailDiscount">0</span>% OFF</div>
+                        <h2 class="product-detail-title" id="offerDetailTitle">Offer Title</h2>
+                        <p class="product-description" id="offerDetailDescription">Description...</p>
+                        <div class="product-detail-price"><span id="offerDetailPrice" style="color:#FF2D55">$0.00</span><span id="offerDetailOldPrice" class="old-price" style="color:#86868b; font-size:1.5rem; margin-left:12px;">$0.00</span></div>
+                        <div class="contact-section">
+                            <div class="contact-title"><i class="fas fa-gift"></i><span>Claim This Deal</span></div>
+                            <div class="contact-buttons">
+                                <a href="tel:+254700000000" class="contact-btn phone" target="_blank"><i class="fas fa-phone-alt"></i><span>Call Now</span></a>
+                                <a href="https://wa.me/254700000000" class="contact-btn whatsapp" id="offerContactWhatsapp" target="_blank"><i class="fab fa-whatsapp"></i><span>WhatsApp</span></a>
+                                <a href="https://tiktok.com/@midlinkinvestments" class="contact-btn tiktok" target="_blank"><i class="fab fa-tiktok"></i><span>TikTok</span></a>
+                            </div>
+                            <p class="contact-note"><i class="fas fa-info-circle"></i>Contact Midlink Investments to claim this special offer</p>
+                        </div>
+                        <div class="shipping-info">
+                            <div class="shipping-item"><i class="fas fa-clock"></i><span>Limited Time Offer</span></div>
+                            <div class="shipping-item"><i class="fas fa-check-circle"></i><span>Genuine Products</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Login Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header"><h5 class="modal-title"><i class="fas fa-user-shield me-2"></i>Admin Access</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+            <div class="modal-body">
+                <form onsubmit="login(event)">
+                    <div class="mb-3"><label class="form-label">Password</label><input type="password" class="form-control" id="adminPassword" required></div>
+                    <button type="submit" class="btn btn-admin w-100">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Add Product Modal -->
+<div class="modal fade" id="addModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"><h5 class="modal-title"><i class="fas fa-plus-circle me-2"></i>Add New Product</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+            <div class="modal-body">
+                <form onsubmit="addProduct(event)">
+                    <div class="upload-widget" id="productUploadWidget">
+                        <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                        <div class="upload-text">Click or Drag Images Here</div>
+                        <div class="upload-subtext">PNG, JPG, WEBP up to 5MB each (Multiple allowed)</div>
+                        <input type="file" class="upload-input" id="productImageInput" accept="image/*" multiple>
+                        <div class="upload-progress" id="productUploadProgress">
+                            <div class="upload-status">Uploading...</div>
+                            <div class="progress-bar"><div class="progress-fill" id="productProgressFill"></div></div>
+                        </div>
+                        <div class="image-gallery" id="productImageGallery"></div>
+                    </div>
+                    <input type="hidden" id="productImageUrls">
+                    <div class="mb-3"><label class="form-label">Product Name</label><input type="text" class="form-control" id="prodName" required></div>
+                    <div class="mb-3"><label class="form-label">Category</label><select class="form-select" id="prodCategory"><option>Smartphone</option><option>Laptop</option><option>Headphones</option><option>Camera</option><option>Smartwatch</option><option>Accessory</option></select></div>
+                    <div class="mb-3"><label class="form-label">Price ($)</label><input type="number" class="form-control" id="prodPrice" step="0.01" required></div>
+                    <div class="mb-3"><label class="form-label">Old Price ($)</label><input type="number" class="form-control" id="prodOldPrice" step="0.01"></div>
+                    <div class="mb-3"><label class="form-label">Description</label><textarea class="form-control" id="prodDesc" rows="3" required></textarea></div>
+                    <button type="submit" class="btn btn-admin w-100">Add Product</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Add Offer Modal -->
+<div class="modal fade" id="addOfferModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(135deg, #FF2D55, #FF9500);"><h5 class="modal-title" style="color: white;"><i class="fas fa-percent me-2"></i>Add New Offer</h5><button type="button" class="btn-close" data-bs-dismiss="modal" style="filter: brightness(0) invert(1);"></button></div>
+            <div class="modal-body">
+                <form onsubmit="addOffer(event)">
+                    <div class="upload-widget" id="offerUploadWidget">
+                        <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                        <div class="upload-text">Click or Drag Image Here</div>
+                        <div class="upload-subtext">PNG, JPG, WEBP up to 5MB</div>
+                        <input type="file" class="upload-input" id="offerImageInput" accept="image/*">
+                        <div class="upload-progress" id="offerUploadProgress">
+                            <div class="upload-status">Uploading...</div>
+                            <div class="progress-bar"><div class="progress-fill" id="offerProgressFill"></div></div>
+                        </div>
+                        <div class="upload-preview" id="offerUploadPreview">
+                            <img class="preview-image" id="offerPreviewImage" src="" alt="Preview">
+                            <br><button type="button" class="preview-remove" onclick="removeImage('offer')"><i class="fas fa-trash me-1"></i>Remove</button>
+                        </div>
+                    </div>
+                    <input type="hidden" id="offerImageUrl">
+                    <div class="mb-3"><label class="form-label">Offer Title</label><input type="text" class="form-control" id="offerTitle" required></div>
+                    <div class="mb-3"><label class="form-label">Discount (%)</label><input type="number" class="form-control" id="offerDiscount" min="1" max="90" required></div>
+                    <div class="mb-3"><label class="form-label">Original Price ($)</label><input type="number" class="form-control" id="offerOriginalPrice" step="0.01" required></div>
+                    <div class="mb-3"><label class="form-label">Offer Price ($)</label><input type="number" class="form-control" id="offerPrice" step="0.01" required></div>
+                    <div class="mb-3"><label class="form-label">Description</label><textarea class="form-control" id="offerDesc" rows="3" required></textarea></div>
+                    <button type="submit" class="btn btn-claim w-100" style="background: linear-gradient(135deg, #FF2D55, #FF9500);">Add Offer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+let products = [];
+let offers = [];
+let isAdmin = false;
+let currentCategory = 'all';
+let searchQuery = '';
+let currentProduct = null;
+let currentOffer = null;
+let uploadedImages = { product: [], offer: null };
+let currentImageIndex = 0;
+let cart = [];
+// ⚠️ UPDATE THIS WITH YOUR WHATSAPP NUMBER (Format: 2547...)
+const CONTACT_PHONE = "254700000000"; 
+const CONTACT_TIKTOK = "midlinkinvestments";
+
+document.addEventListener('DOMContentLoaded', () => {
+    checkAuth();
+    loadProducts();
+    loadOffers();
+    setupDragDrop();
+    setupScrollListener();
+    loadCartFromStorage();
+});
+
+function setupScrollListener() {
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('scrollProgressBar').style.width = scrolled + '%';
+        const backToTopBtn = document.getElementById('backToTop');
+        if (winScroll > 300) backToTopBtn.classList.add('show');
+        else backToTopBtn.classList.remove('show');
+        updateBreadcrumb(winScroll);
+    });
+}
+
+function updateBreadcrumb(scrollPos) {
+    const breadcrumbNav = document.getElementById('breadcrumbNav');
+    const breadcrumbCurrent = document.getElementById('breadcrumbCurrent');
+    const productsSection = document.getElementById('products');
+    const offersSection = document.getElementById('offers');
+    if (scrollPos > productsSection.offsetTop - 100 && scrollPos < offersSection.offsetTop - 100) {
+        breadcrumbNav.classList.add('active');
+        breadcrumbCurrent.textContent = currentCategory === 'all' ? 'Products' : currentCategory;
+    } else if (scrollPos > offersSection.offsetTop - 100) {
+        breadcrumbNav.classList.add('active');
+        breadcrumbCurrent.textContent = 'Special Offers';
+    } else {
+        breadcrumbNav.classList.remove('active');
+    }
+}
+
+function scrollToSection(sectionId) {
+    const section = document.getElementById(sectionId);
+    if (section) section.scrollIntoView({ behavior: 'smooth' });
+}
+
+function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+function addToCart(productId) {
+    const product = products.find(p => p._id === productId);
+    if (!product) return;
+    const existingItem = cart.find(item => item._id === productId);
+    const productImage = Array.isArray(product.images) && product.images.length > 0 ? product.images[0] : (product.image || 'https://via.placeholder.com/400?text=No+Image');
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        cart.push({ _id: product._id, name: product.name, price: product.price, image: productImage, quantity: 1 });
+    }
+    saveCartToStorage();
+    updateCartButton();
+    showToast(`${product.name} added to cart!`, 'success');
+}
+
+function updateCartQuantity(productId, change) {
+    const item = cart.find(item => item._id === productId);
+    if (!item) return;
+    item.quantity += change;
+    if (item.quantity <= 0) removeFromCart(productId);
+    else { saveCartToStorage(); updateCartButton(); renderCartItems(); }
+}
+
+function removeFromCart(productId) {
+    cart = cart.filter(item => item._id !== productId);
+    saveCartToStorage();
+    updateCartButton();
+    renderCartItems();
+    showToast('Item removed from cart', 'success');
+}
+
+function clearCart() {
+    if (confirm('Clear all items from cart?')) {
+        cart = [];
+        saveCartToStorage();
+        updateCartButton();
+        renderCartItems();
+        showToast('Cart cleared', 'success');
+    }
+}
+
+function updateCartButton() {
+    const cartButton = document.getElementById('cartButton');
+    const cartCount = document.getElementById('cartCount');
+    const cartTotal = document.getElementById('cartTotal');
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    cartCount.textContent = totalItems;
+    cartTotal.textContent = `$${totalPrice.toFixed(2)}`;
+    if (totalItems > 0) cartButton.classList.add('show');
+    else cartButton.classList.remove('show');
+}
+
+function openCart() {
+    renderCartItems();
+    new bootstrap.Modal(document.getElementById('cartModal')).show();
+}
+
+function renderCartItems() {
+    const container = document.getElementById('cartItemsContainer');
+    const emptyMessage = document.getElementById('emptyCartMessage');
+    const totalSection = document.getElementById('cartTotalSection');
+    const checkoutForm = document.getElementById('checkoutForm');
+    if (cart.length === 0) {
+        container.innerHTML = '';
+        emptyMessage.style.display = 'block';
+        totalSection.style.display = 'none';
+        checkoutForm.style.display = 'none';
+        return;
+    }
+    emptyMessage.style.display = 'none';
+    totalSection.style.display = 'block';
+    checkoutForm.style.display = 'block';
+    container.innerHTML = cart.map(item => `
+        <div class="cart-item">
+            <img src="${item.image}" alt="${item.name}" class="cart-item-image" onerror="this.src='https://via.placeholder.com/80?text=No+Image'">
+            <div class="cart-item-details">
+                <div class="cart-item-name">${item.name}</div>
+                <div class="cart-item-price">$${item.price.toFixed(2)}</div>
+            </div>
+            <div class="cart-item-quantity">
+                <button onclick="updateCartQuantity('${item._id}', -1)">-</button>
+                <span>${item.quantity}</span>
+                <button onclick="updateCartQuantity('${item._id}', 1)">+</button>
+            </div>
+            <button class="cart-item-remove" onclick="removeFromCart('${item._id}')"><i class="fas fa-trash"></i></button>
+        </div>
+    `).join('');
+    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    document.getElementById('cartFinalTotal').textContent = `$${total.toFixed(2)}`;
+}
+
+function checkoutWhatsApp() {
+    const name = document.getElementById('customerName').value.trim();
+    const phone = document.getElementById('customerPhone').value.trim();
+    if (!name || !phone) { alert('Please fill in all fields'); return; }
+    if (cart.length === 0) { alert('Your cart is empty'); return; }
+    let message = `*NEW ORDER - MIDLINK INVESTMENTS*%0A%0A`;
+    message += `*Customer Details:*%0AName: ${name}%0APhone: ${phone}%0A%0A`;
+    message += `*Order Items:*%0A`;
+    let total = 0;
+    cart.forEach((item, index) => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+        message += `${index + 1}. ${item.name}%0A   Qty: ${item.quantity} x $${item.price.toFixed(2)} = $${itemTotal.toFixed(2)}%0A`;
+    });
+    message += `%0A*TOTAL: $${total.toFixed(2)}*%0A%0APlease confirm my order. Thank you!`;
+    const whatsappUrl = `https://wa.me/${CONTACT_PHONE}?text=${message}`;
+    window.open(whatsappUrl, '_blank');
+    setTimeout(() => {
+        if (confirm('Order sent! Clear cart?')) {
+            clearCart();
+            bootstrap.Modal.getInstance(document.getElementById('cartModal')).hide();
+        }
+    }, 1000);
+}
+
+function saveCartToStorage() { localStorage.setItem('midlink_cart', JSON.stringify(cart)); }
+function loadCartFromStorage() {
+    const savedCart = localStorage.getItem('midlink_cart');
+    if (savedCart) { cart = JSON.parse(savedCart); updateCartButton(); }
+}
+
+async function checkAuth() {
+    try {
+        const res = await fetch('/api/auth/status');
+        const data = await res.json();
+        if (data.isAdmin) {
+            isAdmin = true;
+            document.body.classList.add('admin-mode');
+            document.getElementById('loginBtn').classList.add('d-none');
+            document.getElementById('logoutBtn').classList.remove('d-none');
+        }
+    } catch (err) { console.log('Not logged in'); }
+}
+
+function showLoginModal() { new bootstrap.Modal(document.getElementById('loginModal')).show(); }
+
+async function login(e) {
+    e.preventDefault();
+    const password = document.getElementById('adminPassword').value;
+    try {
+        const res = await fetch('/api/auth/login', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password })
+        });
+        const data = await res.json();
+        if (data.success) {
+            isAdmin = true;
+            document.body.classList.add('admin-mode');
+            document.getElementById('loginBtn').classList.add('d-none');
+            document.getElementById('logoutBtn').classList.remove('d-none');
+            bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide();
+            showToast('Welcome Admin!');
+        } else { alert('Wrong password!'); }
+    } catch (err) { alert('Login failed'); }
+}
+
+async function logout() {
+    await fetch('/api/auth/logout', { method: 'POST' });
+    isAdmin = false;
+    document.body.classList.remove('admin-mode');
+    document.getElementById('loginBtn').classList.remove('d-none');
+    document.getElementById('logoutBtn').classList.add('d-none');
+    showToast('Logged out');
+}
+
+function setupDragDrop() {
+    ['product', 'offer'].forEach(type => {
+        const widget = document.getElementById(`${type}UploadWidget`);
+        const input = document.getElementById(`${type}ImageInput`);
+        widget.addEventListener('click', () => input.click());
+        widget.addEventListener('dragover', (e) => { e.preventDefault(); widget.classList.add('dragover'); });
+        widget.addEventListener('dragleave', () => widget.classList.remove('dragover'));
+        widget.addEventListener('drop', (e) => {
+            e.preventDefault(); widget.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                input.files = e.dataTransfer.files;
+                handleImageUpload(input, type);
+            }
+        });
+        input.addEventListener('change', (e) => handleImageUpload(e.target, type));
+    });
+}
+
+async function handleImageUpload(input, type) {
+    const files = input.files;
+    if (!files || files.length === 0) return;
+    for (let file of files) {
+        if (!file.type.startsWith('image/')) { showToast('Please select image files', 'error'); return; }
+        if (file.size > 5 * 1024 * 1024) { showToast('Images must be less than 5MB', 'error'); return; }
+    }
+    if (type === 'product') {
+        const gallery = document.getElementById('productImageGallery');
+        gallery.innerHTML = '';
+        uploadedImages.product = [];
+        for (let file of files) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                uploadedImages.product.push(e.target.result);
+                document.getElementById('productImageUrls').value = uploadedImages.product.join(',');
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                item.innerHTML = `<img src="${e.target.result}" alt="Preview"><button type="button" class="gallery-remove" onclick="removeGalleryImage(${uploadedImages.product.length - 1})"><i class="fas fa-times"></i></button>`;
+                gallery.appendChild(item);
+            };
+            reader.readAsDataURL(file);
+        }
+    } else {
+        const file = files[0];
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            document.getElementById('offerPreviewImage').src = e.target.result;
+            document.getElementById('offerUploadPreview').classList.add('active');
+            uploadedImages.offer = e.target.result;
+            document.getElementById('offerImageUrl').value = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+    const formData = new FormData();
+    if (type === 'product') {
+        for (let file of files) formData.append('images', file);
+    } else {
+        formData.append('images', files[0]);
+    }
+    try {
+        document.getElementById(`${type}UploadProgress`).classList.add('active');
+        let progress = 0;
+        const interval = setInterval(() => {
+            progress += 10;
+            document.getElementById(`${type}ProgressFill`).style.width = `${Math.min(progress, 90)}%`;
+            if (progress >= 100) clearInterval(interval);
+        }, 100);
+        const res = await fetch('/api/upload', { method: 'POST', body: formData });
+        const data = await res.json();
+        clearInterval(interval);
+        document.getElementById(`${type}ProgressFill`).style.width = '100%';
+        if (data.success) {
+            if (type === 'product') {
+                document.getElementById('productImageUrls').value = data.imageUrls.join(',');
+            } else {
+                uploadedImages.offer = data.imageUrls[0];
+                document.getElementById('offerImageUrl').value = data.imageUrls[0];
+            }
+            setTimeout(() => { document.getElementById(`${type}UploadProgress`).classList.remove('active'); }, 300);
+            showToast(`${data.imageUrls.length} image(s) uploaded!`, 'success');
+        } else { throw new Error(data.error || 'Upload failed'); }
+    } catch (err) {
+        console.error('Upload error:', err);
+        document.getElementById(`${type}UploadProgress`).classList.remove('active');
+        showToast('Upload failed. Are you logged in as admin?', 'error');
+    }
+}
+
+function removeGalleryImage(index) {
+    uploadedImages.product.splice(index, 1);
+    document.getElementById('productImageUrls').value = uploadedImages.product.join(',');
+    const gallery = document.getElementById('productImageGallery');
+    gallery.innerHTML = '';
+    uploadedImages.product.forEach((img, i) => {
+        const item = document.createElement('div');
+        item.className = 'gallery-item';
+        item.innerHTML = `<img src="${img}" alt="Preview"><button type="button" class="gallery-remove" onclick="removeGalleryImage(${i})"><i class="fas fa-times"></i></button>`;
+        gallery.appendChild(item);
+    });
+}
+
+function removeImage(type) {
+    if (type === 'product') {
+        uploadedImages.product = [];
+        document.getElementById('productImageUrls').value = '';
+        document.getElementById('productImageInput').value = '';
+        document.getElementById('productImageGallery').innerHTML = '';
+    } else {
+        uploadedImages.offer = null;
+        document.getElementById('offerImageUrl').value = '';
+        document.getElementById('offerImageInput').value = '';
+        document.getElementById('offerUploadPreview').classList.remove('active');
+    }
+}
+
+async function loadProducts() {
+    try {
+        const res = await fetch('/api/products');
+        products = await res.json();
+        renderProducts();
+    } catch (err) {
+        products = [];
+        renderProducts();
+    }
+}
+
+async function loadOffers() {
+    try {
+        const res = await fetch('/api/offers');
+        offers = await res.json();
+        renderOffers();
+    } catch (err) { offers = []; renderOffers(); }
+}
+
+function renderProducts() {
+    const grid = document.getElementById('productsGrid');
+    let filtered = products;
+    if (currentCategory !== 'all') filtered = products.filter(p => p.category === currentCategory);
+    if (searchQuery) filtered = filtered.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()));
+    if (filtered.length === 0) {
+        grid.innerHTML = `<div class="col-12"><div class="empty-state"><i class="fas fa-box-open"></i><h3>No products found</h3><p>${isAdmin ? 'Click + to add products' : 'Check back soon!'}</p></div></div>`;
+        return;
+    }
+    grid.innerHTML = filtered.map(p => {
+        const mainImage = Array.isArray(p.images) && p.images.length > 0 ? p.images[0] : (p.image || 'https://via.placeholder.com/400?text=No+Image');
+        return `
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="product-card" onclick="showProductDetail('${p._id}')">
+                <button class="remove-btn" onclick="event.stopPropagation(); deleteProduct('${p._id}')"><i class="fas fa-times"></i></button>
+                <div class="product-image"><img src="${mainImage}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/400?text=No+Image'"></div>
+                <div class="product-info">
+                    <span class="category-tag">${p.category}</span>
+                    <h3 class="product-name">${p.name}</h3>
+                    <p class="product-description">${p.description}</p>
+                    <div class="product-price">$${p.price.toFixed(2)}${p.oldPrice ? `<span class="old-price">$${p.oldPrice.toFixed(2)}</span>` : ''}</div>
+                    <button class="btn-buy" onclick="event.stopPropagation(); showProductDetail('${p._id}')"><i class="fas fa-eye me-2"></i>View Details</button>
+                    <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart('${p._id}')"><i class="fas fa-cart-plus me-2"></i>Add to Cart</button>
+                </div>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function renderOffers() {
+    const grid = document.getElementById('offersGrid');
+    if (offers.length === 0) {
+        grid.innerHTML = `<div class="col-12"><div class="empty-state"><i class="fas fa-tags"></i><h3>No offers yet</h3><p>${isAdmin ? 'Click % to add offers' : 'Check back soon!'}</p></div></div>`;
+        return;
+    }
+    grid.innerHTML = offers.map(o => `
+    <div class="col-lg-4 col-md-6">
+        <div class="offer-card" onclick="showOfferDetail('${o._id}')">
+            <button class="remove-btn" onclick="event.stopPropagation(); deleteOffer('${o._id}')" style="top:70px"><i class="fas fa-times"></i></button>
+            <div class="offer-badge">-${o.discount}% OFF</div>
+            <div class="offer-image"><img src="${o.image}" alt="${o.title}" onerror="this.src='https://via.placeholder.com/400?text=No+Image'"></div>
+            <div class="offer-info">
+                <h3 class="offer-name">${o.title}</h3>
+                <p class="product-description">${o.description}</p>
+                <div><span class="offer-price">$${o.price.toFixed(2)}</span><span class="offer-old-price">$${o.originalPrice.toFixed(2)}</span></div>
+                <button class="btn-claim" onclick="event.stopPropagation(); showOfferDetail('${o._id}')"><i class="fas fa-gift me-2"></i>View Deal</button>
+            </div>
+        </div>
+    </div>`).join('');
+}
+
+function showAddModal() { new bootstrap.Modal(document.getElementById('addModal')).show(); }
+function showAddOfferModal() { new bootstrap.Modal(document.getElementById('addOfferModal')).show(); }
+
+async function addProduct(e) {
+    e.preventDefault();
+    const imageUrl = document.getElementById('productImageUrls').value;
+    if (!imageUrl) { showToast('Please upload at least one product image', 'error'); return; }
+    const product = {
+        name: document.getElementById('prodName').value,
+        category: document.getElementById('prodCategory').value,
+        price: parseFloat(document.getElementById('prodPrice').value),
+        oldPrice: document.getElementById('prodOldPrice').value ? parseFloat(document.getElementById('prodOldPrice').value) : null,
+        description: document.getElementById('prodDesc').value,
+        images: imageUrl.split(','),
+        stock: Math.floor(Math.random() * 30) + 1,
+    };
+    try {
+        const res = await fetch('/api/products', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(product)
+        });
+        if (res.ok) {
+            showToast('Product added!', 'success');
+            bootstrap.Modal.getInstance(document.getElementById('addModal')).hide();
+            e.target.reset(); removeImage('product'); loadProducts();
+        } else { throw new Error('Failed'); }
+    } catch (err) { showToast('Error adding product', 'error'); }
+}
+
+async function addOffer(e) {
+    e.preventDefault();
+    const imageUrl = document.getElementById('offerImageUrl').value;
+    if (!imageUrl) { showToast('Please upload an offer image', 'error'); return; }
+    const offer = {
+        title: document.getElementById('offerTitle').value,
+        discount: parseInt(document.getElementById('offerDiscount').value),
+        originalPrice: parseFloat(document.getElementById('offerOriginalPrice').value),
+        price: parseFloat(document.getElementById('offerPrice').value),
+        description: document.getElementById('offerDesc').value,
+        image: imageUrl
+    };
+    try {
+        const res = await fetch('/api/offers', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(offer)
+        });
+        if (res.ok) {
+            showToast('Offer added!', 'success');
+            bootstrap.Modal.getInstance(document.getElementById('addOfferModal')).hide();
+            e.target.reset(); removeImage('offer'); loadOffers();
+        } else { throw new Error('Failed'); }
+    } catch (err) { showToast('Error adding offer', 'error'); }
+}
+
+async function deleteProduct(id) {
+    if (!confirm('Remove this product?')) return;
+    try {
+        await fetch(`/api/products/${id}`, { method: 'DELETE' });
+        showToast('Product removed', 'success'); loadProducts();
+    } catch (err) { showToast('Error', 'error'); }
+}
+
+async function deleteOffer(id) {
+    if (!confirm('Remove this offer?')) return;
+    try {
+        await fetch(`/api/offers/${id}`, { method: 'DELETE' });
+        showToast('Offer removed', 'success'); loadOffers();
+    } catch (err) { showToast('Error', 'error'); }
+}
+
+function showProductDetail(id) {
+    currentProduct = products.find(p => p._id === id);
+    if (!currentProduct) return;
+    currentImageIndex = 0;
+    const images = Array.isArray(currentProduct.images) && currentProduct.images.length > 0 ? currentProduct.images : [currentProduct.image || 'https://via.placeholder.com/400?text=No+Image'];
+    document.getElementById('detailImage').src = images[0];
+    document.getElementById('detailCategory').textContent = currentProduct.category;
+    document.getElementById('detailTitle').textContent = currentProduct.name;
+    document.getElementById('detailDescription').textContent = currentProduct.description;
+    document.getElementById('detailPrice').textContent = `$${currentProduct.price.toFixed(2)}`;
+    document.getElementById('imageCounter').textContent = `1 / ${images.length}`;
+    const prevBtn = document.querySelector('.image-nav.prev');
+    const nextBtn = document.querySelector('.image-nav.next');
+    if (images.length <= 1) {
+        prevBtn.style.display = 'none';
+        nextBtn.style.display = 'none';
+        document.getElementById('imageCounter').style.display = 'none';
+    } else {
+        prevBtn.style.display = 'flex';
+        nextBtn.style.display = 'flex';
+        document.getElementById('imageCounter').style.display = 'block';
+    }
+    const stock = currentProduct.stock || 10;
+    const stockIndicator = document.getElementById('stockIndicator');
+    const stockText = document.getElementById('stockText');
+    if (stock > 10) {
+        stockIndicator.className = 'stock-indicator in-stock';
+        stockText.textContent = 'In Stock';
+    } else if (stock > 0) {
+        stockIndicator.className = 'stock-indicator low-stock';
+        stockText.textContent = `Only ${stock} left!`;
+    } else {
+        stockIndicator.className = 'stock-indicator low-stock';
+        stockText.textContent = 'Out of Stock';
+    }
+    const productName = encodeURIComponent(currentProduct.name);
+    document.getElementById('contactWhatsapp').href = `https://wa.me/${CONTACT_PHONE}?text=Hi! I'm interested in ${productName}`;
+    document.getElementById('contactPhone').href = `tel:+${CONTACT_PHONE}`;
+    document.getElementById('contactTiktok').href = `https://tiktok.com/@${CONTACT_TIKTOK}`;
+    new bootstrap.Modal(document.getElementById('productDetailModal')).show();
+}
+
+function prevImage() {
+    const images = Array.isArray(currentProduct.images) && currentProduct.images.length > 0 ? currentProduct.images : [currentProduct.image];
+    currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+    document.getElementById('detailImage').src = images[currentImageIndex];
+    document.getElementById('imageCounter').textContent = `${currentImageIndex + 1} / ${images.length}`;
+}
+
+function nextImage() {
+    const images = Array.isArray(currentProduct.images) && currentProduct.images.length > 0 ? currentProduct.images : [currentProduct.image];
+    currentImageIndex = (currentImageIndex + 1) % images.length;
+    document.getElementById('detailImage').src = images[currentImageIndex];
+    document.getElementById('imageCounter').textContent = `${currentImageIndex + 1} / ${images.length}`;
+}
+
+function showOfferDetail(id) {
+    currentOffer = offers.find(o => o._id === id);
+    if (!currentOffer) return;
+    document.getElementById('offerDetailImage').src = currentOffer.image;
+    document.getElementById('offerDetailTitle').textContent = currentOffer.title;
+    document.getElementById('offerDetailDescription').textContent = currentOffer.description;
+    document.getElementById('offerDetailPrice').textContent = `$${currentOffer.price.toFixed(2)}`;
+    document.getElementById('offerDetailOldPrice').textContent = `$${currentOffer.originalPrice.toFixed(2)}`;
+    document.getElementById('offerDetailDiscount').textContent = currentOffer.discount;
+    const offerName = encodeURIComponent(currentOffer.title);
+    document.getElementById('offerContactWhatsapp').href = `https://wa.me/${CONTACT_PHONE}?text=Hi! I want to claim this deal: ${offerName}`;
+    new bootstrap.Modal(document.getElementById('offerDetailModal')).show();
+}
+
+function searchProducts() {
+    searchQuery = document.getElementById('searchInput').value.trim();
+    const clearBtn = document.getElementById('searchClear');
+    if (searchQuery) clearBtn.classList.add('active'); else clearBtn.classList.remove('active');
+    renderProducts();
+}
+
+function clearSearch() {
+    document.getElementById('searchInput').value = ''; searchQuery = '';
+    document.getElementById('searchClear').classList.remove('active'); renderProducts();
+}
+
+function filterCategory(category) {
+    currentCategory = category;
+    document.querySelectorAll('.category-pill').forEach(pill => {
+        pill.classList.remove('active');
+        if ((category === 'all' && pill.textContent.includes('All')) || pill.textContent.includes(category)) {
+            pill.classList.add('active');
+        }
+    });
+    renderProducts();
+}
+
+function showToast(message, type = 'success') {
+    const toast = document.getElementById('toastNotification');
+    const toastMessage = document.getElementById('toastMessage');
+    const toastIcon = toast.querySelector('.toast-icon');
+    toastMessage.textContent = message;
+    toastIcon.style.background = type === 'error' ? 'linear-gradient(135deg, #FF3B30, #FF9500)' : 'linear-gradient(135deg, #34C759, #30B0C7)';
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+}
+</script>
+</body>
+</html>
